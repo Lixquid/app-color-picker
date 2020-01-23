@@ -1,0 +1,14 @@
+image: node
+
+deploy:
+    stage: deploy
+    script:
+        - yarn
+        - yarn build
+        - mv public publicOld
+        - mv build public
+    artifacts:
+        paths:
+            - public
+    only:
+        - master
