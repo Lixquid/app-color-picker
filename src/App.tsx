@@ -7,9 +7,11 @@ interface IColorPickerAppProps {
 }
 
 const formats = {
+    /* eslint-disable no-template-curly-in-string */
     Hex: "#${r:x2}${g:x2}${b:x2}",
     RGB: "rgb(${r:d0}, ${g:d0}, ${b:d0})",
     RGBA: "rgba(${r:d0}, ${g:d0}, ${b:d0}, 1)"
+    /* eslint-enable no-template-curly-in-string */
 };
 
 const ColorPickerApp: React.FC = () => {

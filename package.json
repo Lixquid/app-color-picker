@@ -29,7 +29,13 @@
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
-        "extends": "react-app"
+        "extends": "react-app",
+        "ignorePatterns": [
+            "src/typescript-modules/"
+        ],
+        "rules": {
+            "jsx-a11y/anchor-is-valid": "off"
+        }
     },
     "browserslist": {
         "production": [
