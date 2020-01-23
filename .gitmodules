@@ -1,0 +1,3 @@
+[submodule "src/typescript-modules"]
+	path = src/typescript-modules
+	url = https://gitlab.com/lixquid/typescript-modules
