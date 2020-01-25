@@ -1,6 +1,6 @@
 image: node
 
-deploy:
+pages:
     stage: deploy
     before_script:
         - git submodule sync --recursive
