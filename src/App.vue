@@ -5,8 +5,8 @@
             |
             a.btn.btn-outline-primary.float-right(href="https://lixquid.com").
                 lixquid.com
-        
-        .input-group.input-group-lg.w-100.mb-5
+
+        .input-group.input-group-lg.w-100.mb-3
             input.form-control(
                 type="text"
                 :value="output"
@@ -18,8 +18,28 @@
                     type="button"
                     v-on:click.passive="outputToClipboard"
                 ) Copy
-        
-        .card
+
+        .mb-3
+            button.btn.btn-link.dropdown-toggle(
+                type="button"
+                v-on:click.passive="previewVisible = !previewVisible"
+            ) Preview
+
+        .card.mb-5(v-if="previewVisible")
+            .card-header Preview
+            .card-body.text-center.px-5
+                .row
+                    .col.text-dark(:style="{background: '#' + selectedColor}")
+                        .h1 Example
+                    .col.text-light(:style="{background: '#' + selectedColor}")
+                        .h1 Example
+                .row
+                    .col.bg-dark(:style="{color: '#' + selectedColor}")
+                        .h1 Example
+                    .col.bg-light(:style="{color: '#' + selectedColor}")
+                        .h1 Example
+
+        .card.mt-5
             .card-header
                 ul.nav.nav-tabs.card-header-tabs
                     li.nav-item
@@ -51,6 +71,7 @@ export default defineComponent({
         const selectedPalette = ref<keyof typeof palettes>(
             Object.keys(palettes)[0]
         );
+        const previewVisible = ref(false);
 
         const output = computed(() => "#" + selectedColor.value);
 
@@ -71,15 +92,17 @@ export default defineComponent({
             selectedPalette,
             outputElementRef,
             output,
-            outputToClipboard
+            outputToClipboard,
+            previewVisible
         };
     }
 });
 </script>
 
 <style lang="stylus" scoped>
-.palette--box
-    flex-grow 1
-    height 3em
-    border none
+.palette--box {
+  flex-grow: 1;
+  height: 3em;
+  border: none;
+}
 </style>
