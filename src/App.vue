@@ -1,28 +1,18 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
-  </div>
+<template lang="pug">
+    .container.my-5.mx-auto
+        h1
+            | Color Picker
+            |
+            a.btn.btn-outline-primary.float-right(href="https://lixquid.com").
+                lixquid.com
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import { createComponent } from "@vue/composition-api";
 
-export default Vue.extend({
-  name: "App",
-  components: {
-    HelloWorld
-  }
+export default createComponent({
+    setup() {
+        return {};
+    }
 });
 </script>
-
-<style lang="stylus">
-#app
-  font-family Avenir, Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
-</style>

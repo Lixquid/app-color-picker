@@ -1,0 +1,17 @@
+image: node
+
+pages:
+    stage: deploy
+    before_script:
+        - git submodule sync --recursive
+        - git submodule update --init --recursive
+    script:
+        - yarn
+        - yarn build
+        - mv public publicOld
+        - mv dist public
+    artifacts:
+        paths:
+            - public
+    only:
+        - master
