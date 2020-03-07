@@ -19,17 +19,33 @@
             ) History
 
         preview.mb-5(:selectedColor="selectedColor", v-if="previewVisible")
-        history.mb-5(:history="history", :setSelectedColor="(c) => selectedColor = c", v-if="historyVisible")
+        history.mb-5(
+            :history="history"
+            :setSelectedColor="(c) => selectedColor = c"
+            v-if="historyVisible"
+        )
 
         .card.mt-5
             .card-header
                 ul.nav.nav-tabs.card-header-tabs
-                    li.nav-item
-                        a.nav-link.active(
+                    li.nav-item(
+                        v-for="picker in availablePickers"
+                        :key="picker"
+                    )
+                        a.nav-link(
                             href="#"
-                            v-on:click.prevent=""
-                        ) Palette
-            selector-palette(:setSelectedColor="c => selectedColor = c")
+                            v-on:click.prevent="selectedPicker = picker"
+                            :class="{active: selectedPicker === picker}"
+                        ) {{picker}}
+            selector-palette(
+                :setSelectedColor="c => selectedColor = c"
+                v-show="selectedPicker === 'Palette'"
+            )
+            SelectorHTML5(
+                :selectedColor="selectedColor"
+                :setSelectedColor="c => selectedColor = c"
+                v-show="selectedPicker === 'HTML5'"
+            )
 
 </template>
 
@@ -39,25 +55,35 @@ import Preview from "./components/Preview.vue";
 import History, { useHistory } from "./components/History.vue";
 import OutputBar from "./components/OutputBar.vue";
 import SelectorPalette from "./components/SelectorPalette.vue";
+import SelectorHTML5 from "./components/SelectorHTML5.vue";
+
+const availablePickers = ["Palette", "HTML5"];
 
 export default defineComponent({
     components: {
         Preview,
         History,
         OutputBar,
-        SelectorPalette
+        SelectorPalette,
+        SelectorHTML5
     },
     setup() {
         const selectedColor = ref("ffffff");
+        const selectedPicker = ref("Palette");
+
         const previewVisible = ref(false);
         const historyVisible = ref(false);
         const history = useHistory(selectedColor);
 
         return {
             selectedColor,
+            selectedPicker,
+
             previewVisible,
             historyVisible,
-            history
+            history,
+
+            availablePickers
         };
     }
 });
