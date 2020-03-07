@@ -24,20 +24,42 @@
                 type="button"
                 v-on:click.passive="previewVisible = !previewVisible"
             ) Preview
+            button.btn.btn-link.dropdown-toggle(
+                type="button"
+                v-on:click.passive="historyVisible = !historyVisible"
+            ) History
 
         .card.mb-5(v-if="previewVisible")
             .card-header Preview
             .card-body.text-center.px-5
                 .row
                     .col.text-dark(:style="{background: '#' + selectedColor}")
-                        .h1 Example
+                        .h1.py-3 Example
                     .col.text-light(:style="{background: '#' + selectedColor}")
-                        .h1 Example
+                        .h1.py-3 Example
                 .row
                     .col.bg-dark(:style="{color: '#' + selectedColor}")
-                        .h1 Example
+                        .h1.py-3 Example
                     .col.bg-light(:style="{color: '#' + selectedColor}")
-                        .h1 Example
+                        .h1.py-3 Example
+
+        .card.mb-5(v-if="historyVisible")
+            .card-header
+                | History
+                a.text-danger.float-right(
+                    href="#"
+                    v-on:click.prevent="history = []"
+                ) Clear All
+            .card-body.history--body
+                ul.mb-0
+                    li(
+                        v-for="(c, i) in history"
+                        :key="i"
+                    )
+                        a(
+                            href="#"
+                            v-on:click.prevent="selectedColor = c"
+                        ) {{c}}
 
         .card.mt-5
             .card-header
@@ -61,8 +83,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from "@vue/composition-api";
+import { defineComponent, ref, computed, watch } from "@vue/composition-api";
 import palettes from "./colorpalettes.json";
+
+const HISTORY_MAXIMUM = 100;
 
 export default defineComponent({
     setup() {
@@ -72,8 +96,21 @@ export default defineComponent({
             Object.keys(palettes)[0]
         );
         const previewVisible = ref(false);
+        const history = ref<string[]>([]);
+        const historyVisible = ref(false);
 
         const output = computed(() => "#" + selectedColor.value);
+
+        watch(
+            selectedColor,
+            c => {
+                history.value.unshift(c);
+                if (history.value.length > HISTORY_MAXIMUM) {
+                    history.value.splice(HISTORY_MAXIMUM);
+                }
+            },
+            { lazy: true }
+        );
 
         function outputToClipboard() {
             const element = outputElementRef.value;
@@ -93,16 +130,21 @@ export default defineComponent({
             outputElementRef,
             output,
             outputToClipboard,
-            previewVisible
+            previewVisible,
+            history,
+            historyVisible
         };
     }
 });
 </script>
 
 <style lang="stylus" scoped>
-.palette--box {
-  flex-grow: 1;
-  height: 3em;
-  border: none;
-}
+.palette--box
+    flex-grow 1
+    height 3em
+    border none
+
+.history--body
+    overflow scroll
+    max-height 50vh
 </style>
