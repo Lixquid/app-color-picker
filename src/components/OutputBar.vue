@@ -66,7 +66,6 @@ export default defineComponent({
         function setClipboard() {
             const element = inputRef.value;
             if (!element) {
-                console.log(5);
                 return;
             }
             element.focus();
