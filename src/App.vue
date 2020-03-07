@@ -14,6 +14,20 @@
                 readonly
             )
             .input-group-append
+                button.btn.btn-outline-secondary.dropdown-toggle(
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                ) {{selectedOutput}}
+                .dropdown-menu
+                    a.dropdown-item(
+                        href="#"
+                        v-for="(_, k) in outputFormats"
+                        :key="k"
+                        v-on:click.prevent="selectedOutput = k"
+                    ) {{k}}
+            .input-group-append
                 button.btn.btn-success(
                     type="button"
                     v-on:click.passive="outputToClipboard"
@@ -88,6 +102,23 @@ import palettes from "./colorpalettes.json";
 
 const HISTORY_MAXIMUM = 100;
 
+const outputFormats = {
+    Hex(input: string): string {
+        return "#" + input;
+    },
+    RGB(input: string): string {
+        return (
+            "rgb(" +
+            parseInt(input.substring(0, 2), 16) +
+            ", " +
+            parseInt(input.substring(2, 4), 16) +
+            ", " +
+            parseInt(input.substring(4, 6), 16) +
+            ")"
+        );
+    }
+};
+
 export default defineComponent({
     setup() {
         const outputElementRef = ref<HTMLInputElement>();
@@ -98,8 +129,11 @@ export default defineComponent({
         const previewVisible = ref(false);
         const history = ref<string[]>([]);
         const historyVisible = ref(false);
+        const selectedOutput = ref<keyof typeof outputFormats>("Hex");
 
-        const output = computed(() => "#" + selectedColor.value);
+        const output = computed(() =>
+            outputFormats[selectedOutput.value](selectedColor.value)
+        );
 
         watch(
             selectedColor,
@@ -132,7 +166,9 @@ export default defineComponent({
             outputToClipboard,
             previewVisible,
             history,
-            historyVisible
+            historyVisible,
+            outputFormats,
+            selectedOutput
         };
     }
 });

@@ -1,5 +1,7 @@
 import VueCompositionApi from "@vue/composition-api";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "jquery/dist/jquery.min.js";
 import Vue from "vue";
 import App from "./App.vue";
 import "./registerServiceWorker";
