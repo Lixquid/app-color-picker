@@ -19,6 +19,7 @@ module.exports = {
     },
     rules: {
         "no-console": prodOnly("error"),
-        "no-debugger": prodOnly("error")
+        "no-debugger": prodOnly("error"),
+        "@typescript-eslint/interface-name-prefix": "off"
     }
 };
