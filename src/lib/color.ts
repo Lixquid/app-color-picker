@@ -1,3 +1,5 @@
+import Color = require("color");
+
 export interface IColor {
     readonly r: number;
     readonly g: number;
@@ -27,6 +29,26 @@ export function toFormat(color: IColor, format: string) {
             return toHex(color);
         case "RGB":
             return color.r + ", " + color.g + ", " + color.b;
+        case "HSL": {
+            const c = Color(color).hsl();
+            return c.hue() + ", " + c.saturationl() + ", " + c.lightness();
+        }
+        case "HSV": {
+            const c = Color(color).hsv();
+            return c.hue() + ", " + c.saturationv() + ", " + c.value();
+        }
+        case "CMYK": {
+            const c = Color(color).cmyk();
+            return (
+                c.cyan() +
+                ", " +
+                c.magenta() +
+                ", " +
+                c.yellow() +
+                ", " +
+                c.black()
+            );
+        }
     }
 
     throw new Error("unreachable");

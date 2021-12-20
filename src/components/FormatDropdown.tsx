@@ -7,18 +7,18 @@ export function FormatDropdown({
     format: string;
     setFormat: StateUpdater<string>;
 }) {
-    function formatDropdownItem(name: string) {
+    function Item({ children }: { children: string }) {
         return (
             <li>
                 <a
                     class="dropdown-item"
                     href="#"
                     onClick={(e) => {
-                        setFormat(name);
+                        setFormat(children);
                         e.preventDefault();
                     }}
                 >
-                    {name}
+                    {children}
                 </a>
             </li>
         );
@@ -35,8 +35,11 @@ export function FormatDropdown({
                 {format}
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-                {formatDropdownItem("Hex")}
-                {formatDropdownItem("RGB")}
+                <Item>Hex</Item>
+                <Item>RGB</Item>
+                <Item>HSL</Item>
+                <Item>HSV</Item>
+                <Item>CMYK</Item>
             </ul>
         </>
     );
