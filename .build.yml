@@ -1,5 +1,16 @@
 image: alpine/latest
 oauth: pages.sr.ht/PAGES:RW
-shell: true
+packages:
+    - nodejs
+    - yarn
 sources:
     - https://github.com/lixquid/app-color-picker
+tasks:
+    - build: |
+          cd app-color-picker
+          yarn
+          yarn build
+    - package: |
+          cd app-color-picker
+          tar czvC dist . > dist.tgz
+          acurl -f https://pages.sr.ht/publish/color-picker.lixquid.com -Fcontent=@dist.tgz
