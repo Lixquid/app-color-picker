@@ -12,7 +12,7 @@ export function HTML5Source({
 }) {
     return (
         <input
-            class={clsx("btn btn-secondary w-100", classes.input)}
+            class={clsx("form-control form-control-color w-100", classes.input)}
             type="color"
             value={"#" + color}
             onChange={(e) =>
