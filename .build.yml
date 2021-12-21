@@ -1,0 +1,5 @@
+image: alpine/latest
+oauth: pages.sr.ht/PAGES:RW
+shell: true
+sources:
+    - https://github.com/lixquid/app-color-picker
