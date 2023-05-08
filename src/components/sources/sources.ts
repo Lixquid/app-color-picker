@@ -1,5 +1,6 @@
 import { JSX } from "preact/jsx-runtime";
 import { Color } from "../../lib/color";
+import { ComplementarySource } from "./ComplementarySource";
 import { HTML5Source } from "./HTML5Source";
 import { ImageSource } from "./ImageSource";
 import { PaletteSource } from "./PaletteSource";
@@ -20,4 +21,5 @@ export const colorSources: Record<string, ColorSource> = {
     Palettes: PaletteSource,
     "HTML 5": HTML5Source,
     Image: ImageSource,
+    Complementary: ComplementarySource,
 };
