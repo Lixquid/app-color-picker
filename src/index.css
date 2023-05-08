@@ -1,0 +1,16 @@
+.palettes-color {
+    flex-grow: 1;
+    border: none;
+    height: 2em;
+}
+
+.html5-input {
+    width: 100%;
+    height: 4em;
+}
+
+.history-color {
+    width: 3em;
+    height: 2em;
+    border: none;
+}

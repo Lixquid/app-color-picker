@@ -1,0 +1,28 @@
+{
+    "name": "app-color-picker",
+    "description": "A small app to pick colours from different sources and output them in a variety of formats. ",
+    "version": "0.3.0",
+    "author": {
+        "name": "Lixquid",
+        "url": "https://lixquid.com"
+    },
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "dev": "parcel src/index.html",
+        "build": "parcel build src/index.html --public-url ./"
+    },
+    "dependencies": {
+        "bootstrap": "^5.3.0-alpha3",
+        "bootstrap-icons": "^1.10.5",
+        "parcel": "^2.8.3",
+        "preact": "^10.13.2"
+    },
+    "alias": {
+        "preact/jsx-dev-runtime": "preact/jsx-runtime"
+    },
+    "prettier": {
+        "printWidth": 80,
+        "tabWidth": 4
+    }
+}

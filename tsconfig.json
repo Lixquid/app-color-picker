@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        // Configure TypeScript to use preact instead of react.
+        "jsx": "react",
+        "jsxImportSource": "preact",
+        "target": "ES2020",
+        "moduleResolution": "nodenext",
+        // Load JSON files as modules.
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true
+    }
+}
