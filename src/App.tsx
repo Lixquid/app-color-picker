@@ -1,9 +1,9 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { OutputBar } from "./components/OutputBar";
 import { HistoryPane } from "./components/panes/HistoryPane";
 import { PreviewPane } from "./components/panes/PreviewPane";
 import { colorSources } from "./components/sources/sources";
-import { Color } from "./lib/color";
+import { Color, colorEquals } from "./lib/color";
 
 /** Toggles bootstrap theme between light and dark */
 function toggleDarkMode() {
@@ -20,8 +20,23 @@ export function App() {
         useState<keyof typeof colorSources>("Input");
     const [historyOpen, setHistoryOpen] = useState(false);
     const [previewOpen, setPreviewOpen] = useState(false);
+    const [history, setHistory] = useState<Color[]>([color]);
 
     const ColorSourceComponent = colorSources[colorSource];
+
+    // Add the current color to the history if it's not already there,
+    // otherwise move it to the front.
+    useEffect(() => {
+        setHistory((history) => {
+            if (!colorEquals(history[0], color)) {
+                return [
+                    color,
+                    ...history.filter((c) => !colorEquals(c, color)),
+                ];
+            }
+            return history;
+        });
+    }, [color.r, color.g, color.b, setHistory]);
 
     return (
         <div class="container mx-auto my-5">
@@ -67,7 +82,13 @@ export function App() {
                     Preview
                 </button>
             </div>
-            {historyOpen && <HistoryPane color={color} setColor={setColor} />}
+            {historyOpen && (
+                <HistoryPane
+                    history={history}
+                    setHistory={setHistory}
+                    setColor={setColor}
+                />
+            )}
             {previewOpen && <PreviewPane color={color} />}
             <div class="card mt-5">
                 <div class="card-header">

@@ -8,6 +8,11 @@ export interface Color {
     readonly b: number;
 }
 
+/** Returns is two colors are equal. */
+export function colorEquals(a: Color, b: Color) {
+    return a.r === b.r && a.g === b.g && a.b === b.b;
+}
+
 /** Available output formats */
 export const colorFormats: Record<string, (color: Color) => string> = {
     Hex: toHex,
