@@ -3,6 +3,7 @@ import { Color } from "../../lib/color";
 import { ComplementarySource } from "./ComplementarySource";
 import { HTML5Source } from "./HTML5Source";
 import { ImageSource } from "./ImageSource";
+import { InputSource } from "./InputSource";
 import { PaletteSource } from "./PaletteSource";
 
 /** The type of props to color sources. */
@@ -18,6 +19,7 @@ export type ColorSource = (props: ColorSourceProps) => JSX.Element;
 
 /** The list of available color sources. */
 export const colorSources: Record<string, ColorSource> = {
+    Input: InputSource,
     Palettes: PaletteSource,
     "HTML 5": HTML5Source,
     Image: ImageSource,
