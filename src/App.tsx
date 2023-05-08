@@ -15,7 +15,7 @@ function toggleDarkMode() {
 }
 
 export function App() {
-    const [color, setColor] = useState<Color>({ r: 0, g: 0, b: 0 });
+    const [color, setColor] = useState<Color>({ r: 0, g: 87, b: 174 });
     const [colorSource, setColorSource] =
         useState<keyof typeof colorSources>("Palettes");
     const [historyOpen, setHistoryOpen] = useState(false);
