@@ -11,7 +11,10 @@ export interface Color {
 /** Available output formats */
 export const colorFormats: Record<string, (color: Color) => string> = {
     Hex: toHex,
-    RGB: (color) => `rgb(${color.r}, ${color.g}, ${color.b})`,
+    RGB: (color) =>
+        `rgb(${Math.round(color.r)}, ${Math.round(color.g)}, ${Math.round(
+            color.b
+        )})`,
     HSL: (color) => {
         const [h, s, l] = toHSL(color);
         return `hsl(${h}, ${s * 100}%, ${l * 100}%)`;
@@ -23,9 +26,9 @@ export const colorFormats: Record<string, (color: Color) => string> = {
 export function toHex(color: Color) {
     return (
         "#" +
-        color.r.toString(16).padStart(2, "0") +
-        color.g.toString(16).padStart(2, "0") +
-        color.b.toString(16).padStart(2, "0")
+        Math.round(color.r).toString(16).padStart(2, "0") +
+        Math.round(color.g).toString(16).padStart(2, "0") +
+        Math.round(color.b).toString(16).padStart(2, "0")
     );
 }
 
@@ -60,6 +63,11 @@ export function fromRGB(rgb: [r: number, g: number, b: number]): Color {
 //#endregion
 
 //#region HSL
+/** Calculate the modulo of a number. */
+function mod(n: number, m: number) {
+    return ((n % m) + m) % m;
+}
+
 /** Converts a color to an HSL tuple. */
 export function toHSL(color: Color): [h: number, s: number, l: number] {
     // Convert the RGB values to the range [0, 1].
@@ -117,22 +125,24 @@ function hueToRGB(p: number, q: number, t: number) {
 
 /** Converts an HSL tuple to a color. */
 export function fromHSL(hsl: [h: number, s: number, l: number]): Color {
+    // Ensure hue is in the range [0, 360).
+    let h = mod(hsl[0], 360);
+    // Ensure saturation and lightness are in the range [0, 1].
+    const s = Math.max(0, Math.min(1, hsl[1]));
+    const l = Math.max(0, Math.min(1, hsl[2]));
     // If the saturation is 0, the color is a shade of gray.
-    if (hsl[1] === 0) {
-        return { r: hsl[2], g: hsl[2], b: hsl[2] };
+    if (s === 0) {
+        return { r: l * 255, g: l * 255, b: l * 255 };
     }
-    // Convert the hue to the range [0, 1].
-    const h = hsl[0] / 360;
+    // Convert the hue to the range [0, 1).
+    h = hsl[0] / 360;
     // Calculate the intermediate values.
-    const q =
-        hsl[2] < 0.5
-            ? hsl[2] * (1 + hsl[1])
-            : hsl[2] + hsl[1] - hsl[2] * hsl[1];
-    const p = 2 * hsl[2] - q;
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
     // Calculate the RGB values.
-    const r = hueToRGB(p, q, h + 1 / 3);
-    const g = hueToRGB(p, q, h);
-    const b = hueToRGB(p, q, h - 1 / 3);
+    const r = hueToRGB(p, q, h + 1 / 3) * 255;
+    const g = hueToRGB(p, q, h) * 255;
+    const b = hueToRGB(p, q, h - 1 / 3) * 255;
     return { r, g, b };
 }
 //#endregion
