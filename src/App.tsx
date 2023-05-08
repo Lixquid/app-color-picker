@@ -21,6 +21,8 @@ export function App() {
     const [historyOpen, setHistoryOpen] = useState(false);
     const [previewOpen, setPreviewOpen] = useState(false);
 
+    const ColorSourceComponent = colorSources[colorSource];
+
     return (
         <div class="container mx-auto my-5">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-5">
@@ -93,7 +95,7 @@ export function App() {
                         ))}
                     </ul>
                 </div>
-                {colorSources[colorSource]({ color, setColor })}
+                <ColorSourceComponent setColor={setColor} color={color} />
             </div>
         </div>
     );
