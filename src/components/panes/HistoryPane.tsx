@@ -1,4 +1,4 @@
-import { Color, toHex } from "../../lib/color";
+import { Color, colorFormats, toHex } from "../../lib/color";
 import { setClipboard } from "../../lib/util";
 
 /** Props for the HistoryPane component */
@@ -9,6 +9,8 @@ interface HistoryPaneProps {
     setColor: (color: Color) => void;
     /** Function to set the history */
     setHistory: (history: Color[]) => void;
+    /** The output format to use */
+    outputFormat: keyof typeof colorFormats;
 }
 
 /** A pane that displays the history of colors */
@@ -23,9 +25,8 @@ export function HistoryPane(props: HistoryPaneProps) {
                             class="btn btn-link btn-sm text-primary"
                             onClick={() => {
                                 setClipboard(
-                                    // TODO: Make this use the selected output format
                                     props.history
-                                        .map((color) => toHex(color))
+                                        .map(colorFormats[props.outputFormat])
                                         .join("\n")
                                 );
                             }}

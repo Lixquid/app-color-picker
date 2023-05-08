@@ -6,11 +6,17 @@ import { setClipboard } from "../lib/util";
 interface OutputBarProps {
     /** The color to display */
     color: Color;
+    /** The output format to use */
+    outputFormat: keyof typeof colorFormats;
+    /** Function to set the output format */
+    setOutputFormat: (format: keyof typeof colorFormats) => void;
 }
 
-export function OutputBar({ color }: OutputBarProps) {
-    const [outputFormat, setOutputFormat] =
-        useState<keyof typeof colorFormats>("Hex");
+export function OutputBar({
+    color,
+    outputFormat,
+    setOutputFormat,
+}: OutputBarProps) {
     const [autoCopy, setAutoCopy] = useState(false);
 
     // Automatically copy the color when the format or color changes

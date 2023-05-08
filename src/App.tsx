@@ -3,7 +3,7 @@ import { OutputBar } from "./components/OutputBar";
 import { HistoryPane } from "./components/panes/HistoryPane";
 import { PreviewPane } from "./components/panes/PreviewPane";
 import { colorSources } from "./components/sources/sources";
-import { Color, colorEquals } from "./lib/color";
+import { Color, colorEquals, colorFormats } from "./lib/color";
 
 /** Toggles bootstrap theme between light and dark */
 function toggleDarkMode() {
@@ -21,6 +21,8 @@ export function App() {
     const [historyOpen, setHistoryOpen] = useState(false);
     const [previewOpen, setPreviewOpen] = useState(false);
     const [history, setHistory] = useState<Color[]>([color]);
+    const [outputFormat, setOutputFormat] =
+        useState<keyof typeof colorFormats>("Hex");
 
     const ColorSourceComponent = colorSources[colorSource];
 
@@ -59,7 +61,11 @@ export function App() {
                     </a>
                 </div>
             </div>
-            <OutputBar color={color} />
+            <OutputBar
+                color={color}
+                outputFormat={outputFormat}
+                setOutputFormat={setOutputFormat}
+            />
             <div>
                 <button
                     class={`btn btn-secondary dropdown-toggle me-2 ${
@@ -87,6 +93,7 @@ export function App() {
                     history={history}
                     setHistory={setHistory}
                     setColor={setColor}
+                    outputFormat={outputFormat}
                 />
             )}
             {previewOpen && <PreviewPane color={color} />}
