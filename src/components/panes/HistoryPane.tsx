@@ -1,4 +1,5 @@
 import { Color, toHex } from "../../lib/color";
+import { setClipboard } from "../../lib/util";
 
 /** Props for the HistoryPane component */
 interface HistoryPaneProps {
@@ -17,12 +18,28 @@ export function HistoryPane(props: HistoryPaneProps) {
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <span>History</span>
-                    <button
-                        class="btn btn-link btn-sm text-danger"
-                        onClick={() => props.setHistory([])}
-                    >
-                        Clear
-                    </button>
+                    <div>
+                        <button
+                            class="btn btn-link btn-sm text-primary"
+                            onClick={() => {
+                                setClipboard(
+                                    // TODO: Make this use the selected output format
+                                    props.history
+                                        .map((color) => toHex(color))
+                                        .join("\n")
+                                );
+                            }}
+                        >
+                            Copy All to Clipboard
+                        </button>
+
+                        <button
+                            class="btn btn-link btn-sm text-danger"
+                            onClick={() => props.setHistory([])}
+                        >
+                            Clear
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="card-body">

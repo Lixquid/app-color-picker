@@ -1,17 +1,11 @@
 import { useEffect, useState } from "preact/hooks";
 import { Color, colorFormats } from "../lib/color";
+import { setClipboard } from "../lib/util";
 
 /** Props for the OutputBar component */
 interface OutputBarProps {
     /** The color to display */
     color: Color;
-}
-
-/** Sets the contents of the clipboard to the given text using the Clipboard API */
-function setClipboard(text: string) {
-    navigator.clipboard.writeText(text).catch((err) => {
-        console.error("Failed to write to clipboard", err);
-    });
 }
 
 export function OutputBar({ color }: OutputBarProps) {
