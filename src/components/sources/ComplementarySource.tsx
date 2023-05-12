@@ -1,5 +1,14 @@
 import { useMemo } from "preact/hooks";
-import { fromHSL, toHSL } from "../../lib/color";
+import { toHSL } from "../../lib/color";
+import {
+    analogous,
+    blue,
+    complementary,
+    green,
+    red,
+    shades,
+    triadic,
+} from "../../lib/modify";
 import { ColorSourceProps } from "./sources";
 
 function ColorEntry(props: ColorSourceProps) {
@@ -22,93 +31,78 @@ export function ComplementarySource(props: ColorSourceProps) {
         () => toHSL(props.color),
         [props.color.r, props.color.g, props.color.b]
     );
-    console.log(hsl);
 
     return (
         <div class="card-body">
             <div class="h5 mb-2">Analogous</div>
             <div class="d-flex">
-                <ColorEntry
-                    color={fromHSL([hsl[0] + 32, hsl[1], hsl[2] + 0.05])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry
-                    color={fromHSL([hsl[0] + 16, hsl[1], hsl[2] + 0.1])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry color={props.color} setColor={props.setColor} />
-                <ColorEntry
-                    color={fromHSL([hsl[0] - 16, hsl[1], hsl[2] + 0.1])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry
-                    color={fromHSL([hsl[0] - 32, hsl[1], hsl[2] + 0.05])}
-                    setColor={props.setColor}
-                />
+                {analogous(hsl).map((color, i) => (
+                    <ColorEntry
+                        color={color}
+                        setColor={props.setColor}
+                        key={i}
+                    />
+                ))}
             </div>
             <div class="h5 my-2">Shades</div>
             <div class="d-flex">
-                <ColorEntry
-                    color={fromHSL([hsl[0], hsl[1], hsl[2] + 0.2])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry
-                    color={fromHSL([hsl[0], hsl[1], hsl[2] + 0.1])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry color={props.color} setColor={props.setColor} />
-                <ColorEntry
-                    color={fromHSL([hsl[0], hsl[1], hsl[2] - 0.1])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry
-                    color={fromHSL([hsl[0], hsl[1], hsl[2] - 0.2])}
-                    setColor={props.setColor}
-                />
+                {shades(hsl).map((color, i) => (
+                    <ColorEntry
+                        color={color}
+                        setColor={props.setColor}
+                        key={i}
+                    />
+                ))}
             </div>
             <div class="h5 my-2">Triadic</div>
             <div class="d-flex">
-                <ColorEntry
-                    color={fromHSL([hsl[0] + 120, hsl[1], hsl[2]])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry
-                    color={fromHSL([hsl[0] + 60, hsl[1], hsl[2]])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry color={props.color} setColor={props.setColor} />
-                <ColorEntry
-                    color={fromHSL([hsl[0] - 60, hsl[1], hsl[2]])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry
-                    color={fromHSL([hsl[0] - 120, hsl[1], hsl[2]])}
-                    setColor={props.setColor}
-                />
+                {triadic(hsl).map((color, i) => (
+                    <ColorEntry
+                        color={color}
+                        setColor={props.setColor}
+                        key={i}
+                    />
+                ))}
             </div>
             <div class="h5 my-2">Complementary</div>
             <div class="d-flex">
-                <ColorEntry
-                    color={fromHSL([hsl[0], hsl[1], hsl[2] + 0.1])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry
-                    color={fromHSL([hsl[0], hsl[1], hsl[2] - 0.1])}
-                    setColor={props.setColor}
-                />
-                <ColorEntry color={props.color} setColor={props.setColor} />
-                <ColorEntry
-                    color={
-                        hsl[2] < 0.5
-                            ? fromHSL([hsl[0] + 180, hsl[1], hsl[2] + 0.1])
-                            : fromHSL([hsl[0] + 180, hsl[1], hsl[2] - 0.1])
-                    }
-                    setColor={props.setColor}
-                />
-                <ColorEntry
-                    color={fromHSL([hsl[0] + 180, hsl[1], hsl[2]])}
-                    setColor={props.setColor}
-                />
+                {complementary(hsl).map((color, i) => (
+                    <ColorEntry
+                        color={color}
+                        setColor={props.setColor}
+                        key={i}
+                    />
+                ))}
+            </div>
+            <div class="h5 my-2">Red Tints</div>
+            <div class="d-flex">
+                {red(props.color).map((color, i) => (
+                    <ColorEntry
+                        color={color}
+                        setColor={props.setColor}
+                        key={i}
+                    />
+                ))}
+            </div>
+            <div class="h5 my-2">Green Tints</div>
+            <div class="d-flex">
+                {green(props.color).map((color, i) => (
+                    <ColorEntry
+                        color={color}
+                        setColor={props.setColor}
+                        key={i}
+                    />
+                ))}
+            </div>
+            <div class="h5 my-2">Blue Tints</div>
+            <div class="d-flex">
+                {blue(props.color).map((color, i) => (
+                    <ColorEntry
+                        color={color}
+                        setColor={props.setColor}
+                        key={i}
+                    />
+                ))}
             </div>
         </div>
     );
