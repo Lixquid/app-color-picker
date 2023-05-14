@@ -13,18 +13,43 @@ export function colorEquals(a: Color, b: Color) {
     return a.r === b.r && a.g === b.g && a.b === b.b;
 }
 
+//#region Formatting
 /** Available output formats */
-export const colorFormats: Record<string, (color: Color) => string> = {
-    Hex: toHex,
-    RGB: (color) =>
-        `rgb(${Math.round(color.r)}, ${Math.round(color.g)}, ${Math.round(
-            color.b
-        )})`,
-    HSL: (color) => {
-        const [h, s, l] = toHSL(color);
-        return `hsl(${h}, ${s * 100}%, ${l * 100}%)`;
-    },
+export const colorFormats = {
+    Hex: "#{r:02x}{g:02x}{b:02x}",
+    RGB: "rgb({r}, {g}, {b})",
+    HSL: "hsl({h}, {s}%, {l}%)",
+    "Decimal Integer": "{decimal}",
 };
+
+/** Returns a formatting object for a color. */
+export function formatObject(color: Color) {
+    let { r, g, b } = color;
+    r = Math.round(r);
+    g = Math.round(g);
+    b = Math.round(b);
+    let [h, s, l] = toHSL(color);
+    h = Math.round(h);
+    s = Math.round(s * 100);
+    l = Math.round(l * 100);
+    const decimal = r * 256 * 256 + g * 256 + b;
+    return {
+        r,
+        g,
+        b,
+        h,
+        s,
+        l,
+        red: r,
+        green: g,
+        blue: b,
+        hue: h,
+        saturation: s,
+        lightness: l,
+        decimal,
+    };
+}
+//#endregion
 
 //#region Hex
 /** Converts a color to a hex string. */

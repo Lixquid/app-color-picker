@@ -21,8 +21,7 @@ export function App() {
     const [historyOpen, setHistoryOpen] = useState(false);
     const [previewOpen, setPreviewOpen] = useState(false);
     const [history, setHistory] = useState<Color[]>([color]);
-    const [outputFormat, setOutputFormat] =
-        useState<keyof typeof colorFormats>("Hex");
+    const [outputFormat, setOutputFormat] = useState<string>(colorFormats.Hex);
 
     const ColorSourceComponent = colorSources[colorSource];
 
