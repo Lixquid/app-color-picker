@@ -124,6 +124,12 @@ export function App() {
                 </div>
                 <ColorSourceComponent setColor={setColor} color={color} />
             </div>
+            <div class="mt-5 text-end">
+                <a href="https://github.com/lixquid/app-color-picker">
+                    <i class="bi bi-box-arrow-up-right me-2" />
+                    Source code
+                </a>
+            </div>
         </div>
     );
 }
