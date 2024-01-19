@@ -1,4 +1,4 @@
-import { useMemo } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 import { toHSL } from "../../lib/color";
 import {
     analogous,
@@ -27,6 +27,8 @@ function ColorEntry(props: ColorSourceProps) {
 /** Provides colors that complement the provided color in a variety of
  * schemes. */
 export function ComplementarySource(props: ColorSourceProps) {
+    const [strength, setStrength] = useState(1);
+
     const hsl = useMemo(
         () => toHSL(props.color),
         [props.color.r, props.color.g, props.color.b]
@@ -34,9 +36,32 @@ export function ComplementarySource(props: ColorSourceProps) {
 
     return (
         <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        <label for="strength">Strength</label>
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="strength"
+                            value={strength}
+                            min={0}
+                            max={5}
+                            onChange={(ev) =>
+                                setStrength(
+                                    parseFloat(
+                                        (ev.target as HTMLInputElement).value
+                                    )
+                                )
+                            }
+                        />
+                    </div>
+                </div>
+            </div>
+
             <div class="h5 mb-2">Analogous</div>
             <div class="d-flex">
-                {analogous(hsl).map((color, i) => (
+                {analogous(hsl, strength).map((color, i) => (
                     <ColorEntry
                         color={color}
                         setColor={props.setColor}
@@ -46,7 +71,7 @@ export function ComplementarySource(props: ColorSourceProps) {
             </div>
             <div class="h5 my-2">Shades</div>
             <div class="d-flex">
-                {shades(hsl).map((color, i) => (
+                {shades(hsl, strength).map((color, i) => (
                     <ColorEntry
                         color={color}
                         setColor={props.setColor}
@@ -56,7 +81,7 @@ export function ComplementarySource(props: ColorSourceProps) {
             </div>
             <div class="h5 my-2">Triadic</div>
             <div class="d-flex">
-                {triadic(hsl).map((color, i) => (
+                {triadic(hsl, strength).map((color, i) => (
                     <ColorEntry
                         color={color}
                         setColor={props.setColor}
@@ -66,7 +91,7 @@ export function ComplementarySource(props: ColorSourceProps) {
             </div>
             <div class="h5 my-2">Complementary</div>
             <div class="d-flex">
-                {complementary(hsl).map((color, i) => (
+                {complementary(hsl, strength).map((color, i) => (
                     <ColorEntry
                         color={color}
                         setColor={props.setColor}
@@ -76,7 +101,7 @@ export function ComplementarySource(props: ColorSourceProps) {
             </div>
             <div class="h5 my-2">Red Tints</div>
             <div class="d-flex">
-                {red(props.color).map((color, i) => (
+                {red(props.color, strength).map((color, i) => (
                     <ColorEntry
                         color={color}
                         setColor={props.setColor}
@@ -86,7 +111,7 @@ export function ComplementarySource(props: ColorSourceProps) {
             </div>
             <div class="h5 my-2">Green Tints</div>
             <div class="d-flex">
-                {green(props.color).map((color, i) => (
+                {green(props.color, strength).map((color, i) => (
                     <ColorEntry
                         color={color}
                         setColor={props.setColor}
@@ -96,7 +121,7 @@ export function ComplementarySource(props: ColorSourceProps) {
             </div>
             <div class="h5 my-2">Blue Tints</div>
             <div class="d-flex">
-                {blue(props.color).map((color, i) => (
+                {blue(props.color, strength).map((color, i) => (
                     <ColorEntry
                         color={color}
                         setColor={props.setColor}
