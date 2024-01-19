@@ -34,6 +34,12 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                 the color as <code>{`rgb(255, 128, 0)`}</code>{" "}
                                 for orange.
                             </p>
+                            <p>
+                                To insert a literal <code>{`{`}</code>, wrap it
+                                in curly braces; <code>{`{{}`}</code>. For
+                                example, <code>{`{{}{r}}`}</code> would output{" "}
+                                <code>{`{255}`}</code> for red.
+                            </p>
                             <p>The format specifiers are as follows:</p>
                             <table class="table table-sm table-striped table-bordered">
                                 <thead>

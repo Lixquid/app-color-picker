@@ -46,6 +46,9 @@ function formatFragment(
  *
  * If the specifier is preceded by a number, it is used to specify the number
  * of zeros to left-pad the number to.
+ *
+ * Literal `{` characters can be inserted by wrapping them in another set of
+ * braces, e.g. `{{}`.
  * @param str The string to format.
  * @param obj The object to use for formatting.
  * @returns The formatted string.
@@ -54,12 +57,16 @@ function formatFragment(
  */
 export function format(str: string, obj: Record<string, unknown>): string {
     // Look for placeholders
-    const regex = /{([^:}]+)(?::([^}]+))?}/g;
+    const regex = /{(?:([^:}]+)(?::([^}]+))?|\{})}/g;
 
     // Replace placeholders
     return str.replace(
         regex,
-        (_, key: string, specifier: string | undefined) => {
+        (body, key: string, specifier: string | undefined) => {
+            if (body === "{{}") {
+                return "{";
+            }
+
             if (obj[key] === undefined) {
                 throw new PlaceholderNotFoundError(key);
             }
