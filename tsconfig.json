@@ -1,13 +1,22 @@
 {
     "compilerOptions": {
         "strict": true,
-        // Configure TypeScript to use preact instead of react.
-        "jsx": "react",
+        "allowUnusedLabels": false,
+        "exactOptionalPropertyTypes": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+
+        "jsx": "react-jsx",
         "jsxImportSource": "preact",
-        "target": "ES2020",
-        "moduleResolution": "nodenext",
-        // Load JSON files as modules.
-        "resolveJsonModule": true,
-        "allowSyntheticDefaultImports": true
+        "moduleResolution": "NodeNext",
+        "module": "NodeNext",
+        "target": "ES2015",
+        "lib": ["DOM", "ES2017"],
+        "resolveJsonModule": true
     }
 }

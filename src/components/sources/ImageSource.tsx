@@ -67,10 +67,16 @@ export function ImageSource(props: ColorSourceProps) {
                 return;
             }
 
+            const [r, g, b] = data;
+
+            if (r === undefined || g === undefined || b === undefined) {
+                return;
+            }
+
             props.setColor({
-                r: data[0],
-                g: data[1],
-                b: data[2],
+                r,
+                g,
+                b,
             });
         },
         [canvas, props.setColor]

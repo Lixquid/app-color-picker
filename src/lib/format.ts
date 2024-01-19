@@ -83,7 +83,7 @@ export function format(str: string, obj: Record<string, unknown>): string {
                         if (m[2] !== undefined) {
                             padding = parseInt(m[2], 10);
                         }
-                        formatter = m[3];
+                        formatter = m[3]!;
                     }
 
                     return formatFragment(

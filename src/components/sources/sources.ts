@@ -18,10 +18,10 @@ export interface ColorSourceProps {
 export type ColorSource = (props: ColorSourceProps) => JSX.Element;
 
 /** The list of available color sources. */
-export const colorSources: Record<string, ColorSource> = {
+export const colorSources = {
     Input: InputSource,
     Palettes: PaletteSource,
     "HTML 5": HTML5Source,
     Image: ImageSource,
     Complementary: ComplementarySource,
-};
+} satisfies Record<string, ColorSource>;

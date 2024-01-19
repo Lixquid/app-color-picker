@@ -9,8 +9,8 @@ import { Color, colorEquals, colorFormats } from "./lib/color";
 function toggleDarkMode() {
     const html = document.querySelector("html");
     if (html !== null) {
-        html.dataset.bsTheme =
-            html.dataset.bsTheme === "dark" ? "light" : "dark";
+        html.dataset["bsTheme"] =
+            html.dataset["bsTheme"] === "dark" ? "light" : "dark";
     }
 }
 
@@ -29,7 +29,8 @@ export function App() {
     // otherwise move it to the front.
     useEffect(() => {
         setHistory((history) => {
-            if (!colorEquals(history[0], color)) {
+            const topOfHistory = history[0];
+            if (topOfHistory && !colorEquals(topOfHistory, color)) {
                 return [
                     color,
                     ...history.filter((c) => !colorEquals(c, color)),
