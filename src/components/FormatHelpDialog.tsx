@@ -9,7 +9,7 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
     return (
         <>
             <div class="modal d-block">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Format String Help</h5>
@@ -35,7 +35,7 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                 for orange.
                             </p>
                             <p>The format specifiers are as follows:</p>
-                            <table class="table table-sm table-striped">
+                            <table class="table table-sm table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Specifier</th>
@@ -136,7 +136,7 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                 be formatted. The following letters are
                                 supported:
                             </p>
-                            <table class="table table-sm table-striped">
+                            <table class="table table-sm table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Letter</th>
