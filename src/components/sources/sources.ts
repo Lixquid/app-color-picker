@@ -1,9 +1,9 @@
 import { JSX } from "preact/jsx-runtime";
 import { Color } from "../../lib/color";
 import { ComplementarySource } from "./ComplementarySource";
-import { HTML5Source } from "./HTML5Source";
 import { ImageSource } from "./ImageSource";
 import { InputSource } from "./InputSource";
+import { NativeSource } from "./NativeSource";
 import { PaletteSource } from "./PaletteSource";
 
 /** The type of props to color sources. */
@@ -21,7 +21,7 @@ export type ColorSource = (props: ColorSourceProps) => JSX.Element;
 export const colorSources = {
     Input: InputSource,
     Palettes: PaletteSource,
-    "HTML 5": HTML5Source,
+    Native: NativeSource,
     Image: ImageSource,
     Complementary: ComplementarySource,
 } satisfies Record<string, ColorSource>;
