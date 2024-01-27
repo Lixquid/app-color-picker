@@ -1,3 +1,5 @@
+import { FormatError } from "./format";
+
 /** A representation of a color. */
 export interface Color {
     /** The red component of the color. */
@@ -17,35 +19,46 @@ export function colorEquals(a: Color, b: Color) {
 /** Available output formats */
 export const colorFormats = {
     Hex: "#{r:02x}{g:02x}{b:02x}",
-    RGB: "rgb({r}, {g}, {b})",
-    HSL: "hsl({h}, {s}%, {l}%)",
+    RGB: "rgb({r:i}, {g:i}, {b:i})",
+    HSL: "hsl({h:i}, {s.100:i}%, {l.100:i}%)",
     "Decimal Integer": "{decimal}",
 };
 
 /** Returns a formatting object for a color. */
 export function formatObject(color: Color) {
-    let { r, g, b } = color;
-    r = Math.round(r);
-    g = Math.round(g);
-    b = Math.round(b);
-    let [h, s, l] = toHSL(color);
-    h = Math.round(h);
-    s = Math.round(s * 100);
-    l = Math.round(l * 100);
-    const decimal = r * 256 * 256 + g * 256 + b;
+    // 0-255, 0-255, 0-255
+    const { r, g, b } = color;
+    // 0-360, 0-1, 0-1
+    const [h, s, l] = toHSL(color);
+    const decimal =
+        Math.round(r * 256 * 256) + Math.round(g * 256) + Math.round(b);
+
+    function createPartFn(val: number, max: number) {
+        return (fStr?: string) => {
+            if (fStr === undefined) {
+                return val;
+            }
+            const f = parseFloat(fStr);
+            if (isNaN(f)) {
+                throw new FormatError(`Invalid number max: ${fStr}`);
+            }
+            return (val / max) * f;
+        };
+    }
+
     return {
-        r,
-        g,
-        b,
-        h,
-        s,
-        l,
-        red: r,
-        green: g,
-        blue: b,
-        hue: h,
-        saturation: s,
-        lightness: l,
+        r: createPartFn(r, 255),
+        g: createPartFn(g, 255),
+        b: createPartFn(b, 255),
+        h: createPartFn(h, 360),
+        s: createPartFn(s, 1),
+        l: createPartFn(l, 1),
+        red: createPartFn(r, 255),
+        green: createPartFn(g, 255),
+        blue: createPartFn(b, 255),
+        hue: createPartFn(h, 360),
+        saturation: createPartFn(s, 1),
+        lightness: createPartFn(l, 1),
         decimal,
     };
 }

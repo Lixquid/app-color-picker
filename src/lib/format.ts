@@ -7,8 +7,10 @@ function formatFragment(
     let output: string;
     switch (formatter) {
         case "d":
-        case "i":
             output = Math.trunc(value).toString();
+            break;
+        case "i":
+            output = Math.round(value).toString();
             break;
         case "f":
             output = value.toString();
@@ -37,7 +39,8 @@ function formatFragment(
  * Placeholders can have a format specifier of the form `{key:specifier}`.
  *
  * The following specifiers are supported:
- * - `d` / `i` - integer (truncate float)
+ * - `d` - integer (truncate float)
+ * - `i` - integer (rounding float)
  * - `f` - float
  * - `e` - float (scientific notation)
  * - `o` - octal (truncate float)
@@ -59,49 +62,60 @@ export function format(str: string, obj: Record<string, unknown>): string {
     // Look for placeholders
     const regex = /{(?:([^:}]+)(?::([^}]+))?|\{})}/g;
 
+    function handleFormat(
+        value: unknown,
+        extraArg?: string,
+        specifier?: string
+    ): string {
+        switch (typeof value) {
+            case "function":
+                return handleFormat(value(extraArg), undefined, specifier);
+            case "number": {
+                let formatter = "f";
+                let padding = 0;
+                let zeroPad = false;
+                if (specifier !== undefined) {
+                    const m = specifier.match(/^(0)?(\d+)?([difoxXe])$/);
+                    if (m === null) {
+                        throw new InvalidFormatSpecifierError(
+                            String(value),
+                            specifier
+                        );
+                    }
+                    if (m[1] !== undefined) {
+                        zeroPad = true;
+                    }
+                    if (m[2] !== undefined) {
+                        padding = parseInt(m[2], 10);
+                    }
+                    formatter = m[3]!;
+                }
+
+                return formatFragment(value, formatter, padding, zeroPad);
+            }
+            default:
+                return String(value);
+        }
+    }
+
     // Replace placeholders
     return str.replace(
         regex,
-        (body, key: string, specifier: string | undefined) => {
+        (body, fullKey: string, specifier: string | undefined) => {
             if (body === "{{}") {
                 return "{";
             }
+
+            const [key, rest] = fullKey.split(".", 2) as [
+                string,
+                string | undefined
+            ];
 
             if (obj[key] === undefined) {
                 throw new PlaceholderNotFoundError(key);
             }
 
-            switch (typeof obj[key]) {
-                case "number":
-                    let formatter = "f";
-                    let padding = 0;
-                    let zeroPad = false;
-                    if (specifier !== undefined) {
-                        const m = specifier.match(/^(0)?(\d+)?([difoxXe])$/);
-                        if (m === null) {
-                            throw new InvalidFormatSpecifierError(
-                                key,
-                                specifier
-                            );
-                        }
-                        if (m[1] !== undefined) {
-                            zeroPad = true;
-                        }
-                        if (m[2] !== undefined) {
-                            padding = parseInt(m[2], 10);
-                        }
-                        formatter = m[3]!;
-                    }
-
-                    return formatFragment(
-                        obj[key] as number,
-                        formatter,
-                        padding,
-                        zeroPad
-                    );
-                default:
-                    return String(obj[key]);
-            }
+            return handleFormat(obj[key], rest, specifier);
         }
     );
 }

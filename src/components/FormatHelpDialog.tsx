@@ -92,7 +92,7 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                         </td>
                                         <td>
                                             The saturation of the color in HSL
-                                            as a number from 0 to 100.
+                                            as a number from 0 to 1.
                                         </td>
                                     </tr>
                                     <tr>
@@ -102,7 +102,7 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                         </td>
                                         <td>
                                             The lightness of the color in HSL as
-                                            a number from 0 to 100.
+                                            a number from 0 to 1.
                                         </td>
                                     </tr>
                                     <tr>
@@ -116,6 +116,14 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                     </tr>
                                 </tbody>
                             </table>
+                            <p>
+                                The change the scale (maximum, range) of a
+                                fragment, append a period and the maximum value
+                                to the specifier. For example,{" "}
+                                <code>{`{r.100}`}</code> would output the red
+                                component of the color as a number from 0 to
+                                100.
+                            </p>
                             <h3>Format Specifier Options</h3>
                             <p>
                                 Each format specifier can be followed by a colon
@@ -152,10 +160,26 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <code>d</code>, <code>i</code>
+                                            <code>d</code>
                                         </td>
                                         <td>
-                                            The number as a decimal integer.
+                                            The number as a decimal (base-10)
+                                            integer, truncating (removing) any
+                                            decimal places. (For example,{" "}
+                                            <code>1.9</code> would become{" "}
+                                            <code>1</code>.)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <code>i</code>
+                                        </td>
+                                        <td>
+                                            The number as a decimal (base-10)
+                                            integer, rounding any decimal
+                                            places. (For example,{" "}
+                                            <code>1.9</code> would become{" "}
+                                            <code>2</code>.)
                                         </td>
                                     </tr>
                                     <tr>
@@ -182,8 +206,8 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                             <code>o</code>
                                         </td>
                                         <td>
-                                            The number as an octal integer.
-                                            (Base 8)
+                                            The number as an octal (base-8)
+                                            integer.
                                         </td>
                                     </tr>
                                     <tr>
@@ -192,7 +216,7 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                         </td>
                                         <td>
                                             The number as a lowercase
-                                            hexadecimal integer. (Base 16)
+                                            hexadecimal (base-16) integer.
                                         </td>
                                     </tr>
                                     <tr>
@@ -201,11 +225,19 @@ export function FormatHelpDialog({ close }: FormatHelpDialogProps) {
                                         </td>
                                         <td>
                                             The number as an uppercase
-                                            hexadecimal integer. (Base 16)
+                                            hexadecimal (base-16) integer.
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <p>
+                                To use both a custom range and format specifier,
+                                specify the range first, then the format
+                                specifier. For example,{" "}
+                                <code>{`{s.255:02x}`}</code> would output the
+                                saturation from 0 to 255 as a two-digit
+                                lowercase hexadecimal number.
+                            </p>
                         </div>
                     </div>
                 </div>
