@@ -30,7 +30,7 @@ export function App() {
     useEffect(() => {
         setHistory((history) => {
             const topOfHistory = history[0];
-            if (topOfHistory && !colorEquals(topOfHistory, color)) {
+            if (!topOfHistory || !colorEquals(topOfHistory, color)) {
                 return [
                     color,
                     ...history.filter((c) => !colorEquals(c, color)),
@@ -38,6 +38,7 @@ export function App() {
             }
             return history;
         });
+        console.log("Added color to history");
     }, [color.r, color.g, color.b, setHistory]);
 
     return (
