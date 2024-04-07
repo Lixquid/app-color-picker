@@ -9,6 +9,7 @@ import {
     shades,
     triadic,
 } from "../../lib/modify";
+import { NumberSliderInput } from "../general/NumberSliderInput";
 import { ColorSourceProps } from "./sources";
 
 function ColorEntry(props: ColorSourceProps) {
@@ -36,27 +37,14 @@ export function ComplementarySource(props: ColorSourceProps) {
 
     return (
         <div class="card-body">
-            <div class="row mb-4">
-                <div class="col-md-4 col-sm-6">
-                    <div class="form-group">
-                        <label for="strength">Strength</label>
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="strength"
-                            value={strength}
-                            min={0}
-                            max={5}
-                            onChange={(ev) =>
-                                setStrength(
-                                    parseFloat(
-                                        (ev.target as HTMLInputElement).value
-                                    )
-                                )
-                            }
-                        />
-                    </div>
-                </div>
+            <div class="mb-4">
+                <NumberSliderInput
+                    label="Strength"
+                    min={0}
+                    max={5}
+                    value={strength}
+                    onChange={setStrength}
+                />
             </div>
 
             <div class="h5 mb-2">Analogous</div>
